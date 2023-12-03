@@ -1,4 +1,8 @@
-from config import *
+from config import (n,v,g,e)
+from literals import (
+    posEdgeLiteral,
+    negEdgeLiteral
+)
 
 def allVoters():
     return range(n)

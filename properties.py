@@ -3,6 +3,9 @@ from utils import (
     allVoters,
     allGraphs,
     allEdges,
+
+)
+from literals import (
     posEdgeLiteral, # (node x, node y)
     negEdgeLiteral, # (node x, node y)
 )
