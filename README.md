@@ -1,1 +1,1 @@
-# TowardsGraphAggregation
+# TowardsGraphAggregationSAT
