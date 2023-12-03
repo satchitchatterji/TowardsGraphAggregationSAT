@@ -37,10 +37,3 @@ def get_graph(graph_int, v):
     return edges
 
 
-def complete():
-    cnf = []
-    for x in allVertices():
-        for y in allVertices():
-            if x!=y:
-                cnf.append((posEdgeLiteral(x,y), posEdgeLiteral(y,x)))
-    return cnf
