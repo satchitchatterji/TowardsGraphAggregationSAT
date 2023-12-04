@@ -21,7 +21,7 @@ def cnfReflexivity():
 
     # edge from x to x for each note
     for x in allVertices():
-        cnf.append((posEdgeLiteral(x,x)))
+        cnf.append((posEdgeLiteral(x,x),))
 
     return cnf
 
@@ -34,7 +34,7 @@ def cnfIrreflexivity():
     cnf = []
 
     for x in allVertices():
-        cnf.append((negEdgeLiteral(x,x)))
+        cnf.append((negEdgeLiteral(x,x),))
 
     return cnf
 
@@ -97,9 +97,9 @@ def cnfNontriviality():
     clause = []
     for x in allVertices():
         for y in allVertices():
-            clause.append(posEdgeLiteral(x,y))
+            clause.append((posEdgeLiteral(x,y)))
 
-    cnf.append(tuple(posEdgeLiteral))
+    cnf.append((posEdgeLiteral,))
 
     return cnf
 
@@ -115,5 +115,6 @@ def cnfSeriality():
         clause = []
         for y in allVertices():
             clause.append(posEdgeLiteral(x,y))
-        cnf.append(tuple(clause))
+        cnf.append((clause,))
     return cnf
+

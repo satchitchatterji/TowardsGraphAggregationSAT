@@ -3,10 +3,6 @@ from itertools import permutations
 from utils import allVertices, allProfiles, allVoters, get_graph
 from literals import *
 
-all_graphs = [1,2,3,4,5]
-config.g = 5
-
-
 def get_all_profiles(graphs):
 	return permutations(graphs, config.v)
 
