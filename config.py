@@ -6,8 +6,8 @@
 # e = v**2 # number of possible directed edges
 
 class config:
-	n = 2 # number of voters
-	v = 3 # number of vertices
+	n = 3 # number of voters
+	v = 2 # number of vertices
 	g = 2**(v**2) # number of total directed graphs
 	e = v**2 # number of possible directed edges
 
