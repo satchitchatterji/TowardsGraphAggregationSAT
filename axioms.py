@@ -2,6 +2,7 @@ from config import config
 from itertools import permutations
 from utils import allVertices, allProfiles, allVoters, get_graph
 from literals import *
+from math import factorial
 
 def get_all_profiles(graphs):
 	return permutations(graphs, config.v)
@@ -11,6 +12,9 @@ def index_profile(tup, graphs):
 
 def anonymity(graph_list):
 	cnf = []
+	exp_c = len(allProfiles())*factorial(config.v)*config.v*config.v
+	print("Expected clauses: ", exp_c)
+	# return exp_c
 	for profile1 in get_all_profiles(graph_list):
 		perms = permutations(profile1)
 		for profile2 in perms:
@@ -23,6 +27,9 @@ def anonymity(graph_list):
 
 def unanimity(graph_list):
 	cnf = []
+	exp_c = len(allProfiles())*config.v*config.v
+	print("Expected clauses: ", exp_c)
+	# return exp_c
 	for E in allProfiles():
 		for x in allVertices():
 			for y in allVertices():
@@ -37,6 +44,9 @@ def unanimity(graph_list):
 
 def grounded(graph_list):
 	cnf = []
+	exp_c =  len(allProfiles())*config.v*config.v*config.n
+	print("Expected clauses: ", exp_c)
+	# return exp_c
 	for E in allProfiles():
 		for x in allVertices():
 			for y in allVertices():
@@ -47,6 +57,9 @@ def grounded(graph_list):
 
 def nondictatorship(graph_list):
 	cnf = []
+	exp_c = len(allProfiles())*config.n*config.n*config.e
+	print("Expected clauses: ", exp_c)
+	# return exp_c
 	for profile in get_all_profiles(graph_list):
 		E = index_profile(profile, graph_list)
 		for i in allVoters():
@@ -61,6 +74,9 @@ def nondictatorship(graph_list):
 
 def iie(graph_list):
 	cnf = []
+	exp_c = len(allProfiles())*len(allProfiles())*config.v*config.v*2
+	print("Expected clauses: ", exp_c)
+	# return exp_c
 	for E1 in allProfiles():
 		for E2 in allProfiles():
 			for x in allVertices():
