@@ -5,12 +5,13 @@ from utils import (
     allEdges,
 
 )
+
 from literals import (
     posEdgeLiteral, # (node x, node y)
     negEdgeLiteral, # (node x, node y)
 )
 
-def cnfReflexivity(V):
+def cnfReflexivity():
     """Reflexivity property
 
     Returns:
@@ -24,7 +25,7 @@ def cnfReflexivity(V):
 
     return cnf
 
-def cnfIrreflexivity(V):
+def cnfIrreflexivity():
     """Irreflexivity property
 
     Returns:
@@ -37,7 +38,7 @@ def cnfIrreflexivity(V):
 
     return cnf
 
-def cnfTransitivity(V):
+def cnfTransitivity():
     """Transitivity property
 
     Returns:
@@ -54,7 +55,7 @@ def cnfTransitivity(V):
 
     return cnf
 
-def cnfCompleteness(V):
+def cnfCompleteness():
     """Completeness property
 
     Returns:
@@ -69,7 +70,7 @@ def cnfCompleteness(V):
     
     return cnf
 
-def cnfConnectedness(V):
+def cnfConnectedness():
     """Reflexivity property
 
     Returns:
@@ -85,7 +86,7 @@ def cnfConnectedness(V):
 
     return cnf
 
-def cnfNontriviality(V):
+def cnfNontriviality():
     """Reflexivity property
 
     Returns:
@@ -102,7 +103,7 @@ def cnfNontriviality(V):
 
     return cnf
 
-def cnfSeriality(V):
+def cnfSeriality():
     """Seriality property
 
     Returns:

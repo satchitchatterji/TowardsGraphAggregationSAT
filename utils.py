@@ -1,21 +1,24 @@
-from config import (n,v,g,e)
+from config import config
 from literals import (
     posEdgeLiteral,
     negEdgeLiteral
 )
+from math import factorial
 
 def allVoters():
-    return range(n)
+    return range(config.n)
 
 def allVertices():
-    return range(v)
+    return range(config.v)
 
 def allGraphs():
-    return range(g)
+    return range(config.g)
 
 def allEdges():
-    return range(e)
+    return range(config.e)
 
+def allProfiles():
+    return range(factorial(config.g))
 
 def graphCNF(G_edges):
     cnf = []
@@ -40,4 +43,4 @@ def get_graph(graph_int, v):
     edges = [get_edge_xy(i,v) for i, digit in enumerate(reversed(binary_repr)) if digit=="1"]
     return edges
 
-
+# def get_
