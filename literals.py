@@ -3,14 +3,12 @@ from math import factorial
 
 
 def calculate_index(coordinates, dimensions):
+    # unique index of a point with coordinates 'coordinates'
+    # in a nD box of dimension n, with max size 'dimensions'
     idx = coordinates[0]
     for i in range(1, len(coordinates)):
         idx = idx * dimensions[i] + coordinates[i]
     return idx
-
-def get_total_profiles():
-    return factorial(config.g)
-
 
 def posEdgeLiteral(x, y):
     # used only for properties
@@ -23,7 +21,7 @@ def negEdgeLiteral(x, y):
 
 
 def posLiteral(E, x, y):
-    return calculate_index((config.n, E,x,y), (config.n, get_total_profiles(), config.v, config.v)) + 1
+    return calculate_index((config.n, E,x,y), (config.n, config.r, config.v, config.v)) + 1
 
 def negLiteral(E, x, y):
     return -posLiteral(E,x,y)
@@ -32,9 +30,9 @@ def negLiteral(E, x, y):
     # return (E+1) * (i*posEdgeLiteral(config.v-1,config.v-1) + posEdgeLiteral(x,y))
 
 def posEdgePlayerLiteral(E, x, y, i):
-    return calculate_index((E,x,y,i), (get_total_profiles(), config.v, config.v, config.n)) + 1
+    return calculate_index((E,x,y,i), (config.r, config.v, config.v, config.n)) + 1
 
-    # return E*get_total_profiles()+ i*config.n + x*config.v + y + 1
+    # return E*config.r+ i*config.n + x*config.v + y + 1
 
 # E is profile
 def negEdgePlayerLiteral(E, x, y, i):

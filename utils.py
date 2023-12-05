@@ -3,7 +3,6 @@ from literals import (
     posEdgeLiteral,
     negEdgeLiteral
 )
-from math import factorial
 
 def allVoters():
     return range(config.n)
@@ -18,7 +17,7 @@ def allEdges():
     return range(config.e)
 
 def allProfiles():
-    return range(factorial(config.g))
+    return range(config.r)
 
 def graphCNF(G_edges):
     cnf = []
