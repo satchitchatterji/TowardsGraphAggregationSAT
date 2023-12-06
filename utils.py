@@ -20,6 +20,15 @@ def allProfiles():
     return range(config.r)
 
 def graphCNF(G_edges):
+    """Creates CNF that describes a single graph
+
+    Args:
+        G_edges (list): List of tuples, containing all (directed) edges in graph G
+
+    Returns:
+        list: CNF represented as list of clauses 
+    """
+
     cnf = []
     for x in allVertices():
         for y in allVertices():
@@ -29,11 +38,31 @@ def graphCNF(G_edges):
                 cnf.append((negEdgeLiteral(x,y),))
     return cnf
 
-def get_edge_xy(edge_int, v):
+def get_edge_xy(edge_literal, v):
+    """Decodes edge literal into origin and destination nodes
+
+    Args:
+        edge_literal (int): Edge literal
+        v (int): Number of vertices
+
+    Returns:
+        tuple: edge origin x and destination y nodes as (x,y)
+    """
+
     assert 1<=v<v**2
-    return divmod(edge_int, v)
+    return divmod(edge_literal, v)
 
 def get_graph(graph_int, v):
+    """Decodes graph literal into interpretable form
+
+    Args:
+        graph_int (int): Graph literal
+        v (int): Number of vertices
+
+    Returns:
+        list: List of edge tuples
+    """
+
     assert graph_int < 2**(v**2)
     n_edges = v**2
     max_bin_rep = len(bin(n_edges)[2:])
@@ -41,5 +70,3 @@ def get_graph(graph_int, v):
     binary_repr = "0"*(max_bin_rep-len(binary_repr))+binary_repr
     edges = [get_edge_xy(i,v) for i, digit in enumerate(reversed(binary_repr)) if digit=="1"]
     return edges
-
-# def get_
