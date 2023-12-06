@@ -25,6 +25,7 @@ def draw_labeled_graph(edge_list, v, plot=True, savelabel=""):
 def draw_profile(graphs, v, winner_graph):
     n_players = len(graphs)
     for graph in graphs:
+        pass
         
 
 

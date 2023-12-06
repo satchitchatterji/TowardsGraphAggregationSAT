@@ -1,6 +1,4 @@
 from config import *
-from math import factorial
-
 
 def calculate_index(coordinates, dimensions):
     # unique index of a point with coordinates 'coordinates'
@@ -18,7 +16,6 @@ def posEdgeLiteral(x, y):
 def negEdgeLiteral(x, y):
     # used only for properties
     return -posEdgeLiteral(x,y)
-
 
 def posLiteral(E, x, y):
     return calculate_index((config.n, E,x,y), (config.n, config.r, config.v, config.v)) + 1
