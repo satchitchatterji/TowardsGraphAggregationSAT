@@ -4,6 +4,12 @@ from literals import (
     negEdgeLiteral
 )
 
+
+############################
+# "ALL" Functions
+############################
+
+
 def allVoters():
     return range(config.n)
 
@@ -18,6 +24,11 @@ def allEdges():
 
 def allProfiles():
     return range(config.r)
+
+
+#################################
+# CNF Generation
+#################################
 
 def graphCNF(G_edges):
     """Creates CNF that describes a single graph
@@ -37,6 +48,10 @@ def graphCNF(G_edges):
             else:
                 cnf.append((negEdgeLiteral(x,y),))
     return cnf
+
+##################################
+# Literal decoding
+##################################
 
 def get_edge_xy(edge_literal, v):
     """Decodes edge literal into origin and destination nodes
