@@ -27,32 +27,36 @@ def calculate_coordinates(idx, dimensions):
     coordinates[0] = idx
     return coordinates
 
-# def decodeLiteral(lit):
-#     """Decodes E,x,y,i from a given playerliteral.
+def decodeLiteral(lit):
+    """Decodes E,x,y,i from a given playerliteral.
 
-#     Args:
-#         lit (int): Literal representing edge from x to y for player i in graph E.
+    Args:
+        lit (int): Literal representing edge from x to y for player i in graph E.
 
-#     Returns:
-#         tuple: (E,x,y,i)
-#     """
-#     pol = lit > 0
-#     lit = abs(lit) - 1
-#     dimensions 
+    Returns:
+        tuple: (E,x,y,i)
+    """
+    pol = lit > 0
+    lit = abs(lit) - 1
+    dimensions = None
 
     
-#     # literal type: player
-#     # returns (E,x,y)
-#     if dimensions[0] == config.n: 
-#     # literal type: edgeplayer
-#     # returns (E,x,y,i)
-#     else:
-
-#     coords = calculate_coordinates(lit, dimensions)
+    # literal type: player
+    # returns (E,x,y)
+    # if lit > config.n*config.r*config.v*config.v:
+    #     lit /= config.n
+    #     dimensions = (config.r, config.v, config.v)
+    # # literal type: edgeplayer
+    # # returns (E,x,y,i)
+    # else:
     
+    dimensions = (config.n+1, config.r, config.v, config.v)  
+    coords = calculate_coordinates(lit, dimensions)
+    print(coords)
+    if lit > (config.n)*config.r*config.v*config.v:
+        return coords[1:]
 
-#     return coordinates, literalType
-
+    return coords
 
 def posEdgeLiteral(x, y):
     """Encodes edge from node x to y as an integer. Used only for properties
@@ -92,7 +96,7 @@ def posLiteral(E, x, y):
         int: Positive literal for CNF
     """
     # return calculate_index((E,x,y,config.n), (config.r, config.v, config.v, config.n)) + 1
-    return posEdgePlayerLiteral(E, x, y, config.n+1)
+    return posEdgePlayerLiteral(E, x, y, config.n)
 
 def negLiteral(E, x, y):
     """Calculates negative literal for an edge given the profile
@@ -119,7 +123,7 @@ def posEdgePlayerLiteral(E, x, y, i):
     Returns:
         int: Positive literal for CNF
     """
-    return calculate_index((E,x,y,i), (config.r, config.v, config.v, config.n)) + 1
+    return calculate_index((i,E,x,y), (config.n+1, config.r, config.v, config.v)) + 1
 
 # E is profile
 def negEdgePlayerLiteral(E, x, y, i):

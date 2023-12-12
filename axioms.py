@@ -7,21 +7,30 @@ from math import factorial
 from functools import lru_cache
 
 
-def get_all_profiles():
-	return permutations(config.graphs, config.v)
+# def getProfileGraphs():
+# 	return permutations(config.graphs, config.v)
 
-def index_profile(tup):
-	return list(get_all_profiles()).index(tup)
+# def index_profile(tup):
+# 	return list(getProfileGraphs()).index(tup)
+
+def profileIntToProfile(profile_int):
+    dims = [config.g]*config.n
+    return tuple(calculate_coordinates(profile_int, dims))
+
+def profileToProfileInt(profile):
+    dims = [config.g]*config.n
+    return calculate_index(profile, dims)
 
 def anonymity():
 	cnf = []
 	exp_c = config.r*factorial(config.v)*config.v*config.v
 	print("Expected clauses: ", exp_c)
 	# return exp_c
-	for profile1 in get_all_profiles(config.graph_list):
-		perms = permutations(profile1)
+	for profile1 in allProfiles():
+		perms = permutations(profileIntToProfile(profile1))
+		print(perms)
 		for profile2 in perms:
-			p1, p2 = index_profile(profile1), index_profile(profile2)
+			p1, p2 = profileToProfileInt(profile1), profileToProfileInt(profile2)
 			for x in allVertices():
 				for y in allVertices():
 					cnf.append((negLiteral(p1, x, y), posLiteral(p2, x, y)))
@@ -63,8 +72,8 @@ def nondictatorship():
 	exp_c = config.r*config.n*config.n*config.e
 	print("Expected clauses: ", exp_c)
 	# return exp_c
-	for profile in get_all_profiles():
-		E = index_profile(profile)
+	for E in allProfiles():
+		profile = profileIntToProfile(E)
 		for i in allVoters():
 			for graph_id in profile:
 				graph = get_graph(graph_id, config.v)

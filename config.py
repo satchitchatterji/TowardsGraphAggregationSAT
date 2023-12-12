@@ -1,18 +1,19 @@
 from math import factorial
-
+from itertools import permutations
 # n = 2 # number of voters
 # v = 3 # number of vertices
 # g = 2**(v**2) # number of total directed graphs
 # e = v**2 # number of possible directed edges
-def compute_r(g):
-	return factorial(g)
+
+def compute_r(g,v):
+	return g**v
 	
 class config:
 	n = 3 # number of voters
 	v = 3 # number of vertices
 	g = 2**(v**2) # number of total directed graphs
 	e = v**2 # number of possible directed edges
-	r = compute_r(g)
+	r = compute_r(g, v)
 
 	graphs = list()
 
@@ -22,7 +23,7 @@ class config:
 			print(f"Warning: Requested update does not match internal state!")
 			print(f"\tRequested update: g={g}, number of graphs saved: len(config.graphs=){len(config.graphs)}")
 		config.g = g
-		config.r = compute_r(g)
+		config.r = compute_r(g, config.v)
 
 	def update_graphs(graphs):
 		print("Updating config.graphs")
