@@ -91,7 +91,8 @@ def posLiteral(E, x, y):
     Returns:
         int: Positive literal for CNF
     """
-    return calculate_index((E,x,y,config.n), (config.r, config.v, config.v, config.n)) + 1
+    # return calculate_index((E,x,y,config.n), (config.r, config.v, config.v, config.n)) + 1
+    return posEdgePlayerLiteral(E, x, y, config.n+1)
 
 def negLiteral(E, x, y):
     """Calculates negative literal for an edge given the profile
