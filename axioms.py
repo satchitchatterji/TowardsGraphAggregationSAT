@@ -124,6 +124,42 @@ def nondictatorship():
 					cnf.append((negEdgePlayerLiteral(E,x,y,i), negLiteral(E,x,y)))
 	return cnf
 
+# def cnfNonDictatorial():
+#     cnf = []
+#     for i in allVoters():
+#         clause = []
+#         for r in allProfiles():
+#             for (x,y) in edges in is graph:
+#                 clause.append(negLiteral(E,x,y))
+#         cnf.append(clause)
+# 		return cnf
+
+def nondictatorship_imp():
+	
+	raise NotImplementedError
+
+	cnf = []
+
+	for E in allProfiles():
+		# for winning origin
+		for xwin in allVertices():
+			# for winning target
+			for ywin in allVertices():
+				graphs_in_E = profileIntToProfile(E)
+				# for graph_int in graphs_in_E:
+				for voter in allVoters():
+					graph_int = graphs_in_E[voter]
+					clause = []
+					if (xwin,ywin) in get_graph(graph_int, config.v):
+						clause.append(negLiteral(E,xwin,ywin))
+					else:
+						clause.append(posLiteral(E,xwin,ywin))
+
+				cnf.append(tuple(clause))
+
+	return cnf
+
+
 
 def iie():
 	cnf = []
