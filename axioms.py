@@ -54,6 +54,25 @@ def unanimity():
 	return cnf
 
 
+
+def unanimity_imp():
+	cnf = []
+
+	for E in allProfiles():
+		# for winning origin
+		for xwin in allVertices():
+			# for winning target
+			for ywin in allVertices():
+				graphs_in_E = profileIntToProfile(E)
+				for graph_int in graphs_in_E:
+					if (xwin,ywin) not in get_graph(graph_int, config.v):
+						# cnf.append((posLiteral(E,xwin,ywin),))
+					# else:
+						cnf.append((negLiteral(E,xwin,ywin),))
+					break
+
+	return cnf
+
 def grounded():
 	cnf = []
 	exp_c =  config.r*config.v*config.v*config.n
@@ -65,6 +84,28 @@ def grounded():
 				for i in allVoters():
 					cnf.append((negLiteral(E,x,y), posEdgePlayerLiteral(E,x,y,i)))
 	return cnf
+
+
+def grounded_imp():
+	cnf = []
+
+	for E in allProfiles():
+		# for winning origin
+		for xwin in allVertices():
+			# for winning target
+			for ywin in allVertices():
+				graphs_in_E = profileIntToProfile(E)
+				edge_exists_in_any_player = False
+				for graph_int in graphs_in_E:
+					if (xwin,ywin) in get_graph(graph_int, config.v):
+						edge_exists_in_any_player = True
+						break
+
+				if not edge_exists_in_any_player:
+					cnf.append((negLiteral(E,xwin,ywin),))
+
+	return cnf
+
 
 
 def nondictatorship():
