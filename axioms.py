@@ -1,6 +1,6 @@
 from config import config
 from itertools import permutations
-from utils import allVertices, allProfiles, allVoters, get_graph, all_edges
+from utils import allVertices, allProfiles, allVoters, get_graph, all_edge_tuples
 from literals import *
 from math import factorial
 
@@ -37,7 +37,7 @@ def anonymity():
 	return cnf
 
 
-def unanimity():
+def unanimity_obsolete():
 	cnf = []
 	exp_c = config.r*config.v*config.v
 	print("Expected clauses: ", exp_c)
@@ -55,7 +55,7 @@ def unanimity():
 
 
 
-def unanimity_imp():
+def unanimity():
 	cnf = []
 
 	for E in allProfiles():
@@ -73,7 +73,7 @@ def unanimity_imp():
 
 	return cnf
 
-def grounded():
+def grounded_obs():
 	cnf = []
 	exp_c =  config.r*config.v*config.v*config.n
 	print("Expected clauses: ", exp_c)
@@ -86,7 +86,7 @@ def grounded():
 	return cnf
 
 
-def grounded_imp():
+def grounded():
 	cnf = []
 
 	for E in allProfiles():
@@ -110,23 +110,42 @@ def grounded_imp():
 
 def nondictatorship():
 	cnf = []
-	for E in allProfiles():
-		# gets all the graph ints
-		voter_graphs = profileIntToProfile(E)
-		
 
-		
-		for gr in voter_graphs:
-			clause = []
-			gr_edges = get_graph(gr, config.v)
-			for (x,y) in all_edges():
+	for i in allVoters():
+		clause = []
+
+		for E in allProfiles():
+			voter_graphs = profileIntToProfile(E)
+			gr_int = voter_graphs[i]
+
+			gr_edges = get_graph(gr_int, config.v)
+			for x,y in all_edge_tuples():
 				if (x,y) in gr_edges: # case where the voter has that edge
 					clause.append(negLiteral(E,x,y))
 				else: # case where the voter does not have the edge
 					clause.append(posLiteral(E,x,y))
+			
+		cnf.append(tuple(clause))
+		
+	return cnf
+
+
+	"""cnf = []
+	for E in allProfiles():
+		# gets all the graph ints
+		voter_graphs = profileIntToProfile(E)
+		
+		for gr_int in voter_graphs:
+			clause = []
+			gr_edges = get_graph(gr_int, config.v)
+			for x,y in all_edge_tuples():
+				if (x,y) in gr_edges: # case where the voter has that edge
+					clause.append(negLiteral(E,x,y))
+				#else: # case where the voter does not have the edge
+				#	clause.append(posLiteral(E,x,y))
 			cnf.append(tuple(clause))
 
-	return cnf
+	return cnf"""
 
 def iie():
 	cnf = []

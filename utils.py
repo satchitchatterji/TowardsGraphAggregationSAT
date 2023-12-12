@@ -90,11 +90,13 @@ def get_graph(graph_int, v):
     edges = [get_edge_xy(i,v) for i, digit in enumerate(reversed(binary_repr)) if digit=="1"]
     return edges
 
-def all_edges():
+def all_edge_tuples():
     """Gives all possible edges, whether they are real or not.
 
-    Args:
-        v (int): Number of vertices
-    """
+    Returns:
 
-    return list(permutations(allVertices(),2)) + [(i,i) for i in allVertices()]
+    """
+    #a = list(permutations(allVertices(),2)) + [(i,i) for i in allVertices()]
+    #a.sort()
+
+    return [get_edge_xy(ed, config.v) for ed in allEdges()]
