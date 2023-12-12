@@ -95,8 +95,8 @@ def posLiteral(E, x, y):
     Returns:
         int: Positive literal for CNF
     """
-    # return calculate_index((E,x,y,config.n), (config.r, config.v, config.v, config.n)) + 1
-    return posEdgePlayerLiteral(E, x, y, config.n)
+    return calculate_index((E,x,y), (config.r, config.v, config.v)) + 1
+    #return posEdgePlayerLiteral(E, x, y, config.n)
 
 def negLiteral(E, x, y):
     """Calculates negative literal for an edge given the profile
@@ -111,8 +111,9 @@ def negLiteral(E, x, y):
     """
     return -posLiteral(E,x,y)
 
-def posEdgePlayerLiteral(E, x, y, i):
-    """Calculates positive literal for an edge given the player and profile
+
+"""def posEdgePlayerLiteral(E, x, y, i):
+    \"""Calculates positive literal for an edge given the player and profile
 
     Args:
         E (int): Profile
@@ -122,12 +123,12 @@ def posEdgePlayerLiteral(E, x, y, i):
 
     Returns:
         int: Positive literal for CNF
-    """
+    \"""
     return calculate_index((i,E,x,y), (config.n+1, config.r, config.v, config.v)) + 1
 
 # E is profile
 def negEdgePlayerLiteral(E, x, y, i):
-    """Calculates negative literal for an edge given the player and profile
+    \"""Calculates negative literal for an edge given the player and profile
 
     Args:
         E (int): Profile
@@ -137,7 +138,6 @@ def negEdgePlayerLiteral(E, x, y, i):
 
     Returns:
         int: Negative literal for CNF
-    """
+    \"""
     
-    return -posEdgePlayerLiteral(E, x, y, i)
-
+    return -posEdgePlayerLiteral(E, x, y, i)"""
