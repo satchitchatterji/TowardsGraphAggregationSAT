@@ -1,6 +1,6 @@
 from config import config
 from itertools import permutations
-from utils import allVertices, allProfiles, allVoters, get_graph
+from utils import allVertices, allProfiles, allVoters, get_graph, all_edges
 from literals import *
 from math import factorial
 
@@ -110,20 +110,23 @@ def grounded_imp():
 
 def nondictatorship():
 	cnf = []
-	exp_c = config.r*config.n*config.n*config.e
-	print("Expected clauses: ", exp_c)
-	# return exp_c
 	for E in allProfiles():
-		profile = profileIntToProfile(E)
-		for i in allVoters():
-			for graph_id in profile:
-				graph = get_graph(graph_id, config.v)
-				for (x,y) in graph:
-					# (p or e) and (not p or not e)
-					cnf.append((posEdgePlayerLiteral(E,x,y,i), posLiteral(E,x,y)))
-					cnf.append((negEdgePlayerLiteral(E,x,y,i), negLiteral(E,x,y)))
-	return cnf
+		# gets all the graph ints
+		voter_graphs = profileIntToProfile(E)
+		
 
+		
+		for gr in voter_graphs:
+			clause = []
+			gr_edges = get_graph(gr, config.v)
+			for (x,y) in all_edges():
+				if (x,y) in gr_edges: # case where the voter has that edge
+					clause.append(negLiteral(E,x,y))
+				else: # case where the voter does not have the edge
+					clause.append(posLiteral(E,x,y))
+			cnf.append(tuple(clause))
+
+	return cnf
 
 def iie():
 	cnf = []

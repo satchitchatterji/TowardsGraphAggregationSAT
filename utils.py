@@ -6,6 +6,8 @@ from literals import (
 
 from functools import lru_cache
 
+from itertools import permutations
+
 ############################
 # "ALL" Functions
 ############################
@@ -87,3 +89,12 @@ def get_graph(graph_int, v):
     binary_repr = "0"*(max_bin_rep-len(binary_repr))+binary_repr
     edges = [get_edge_xy(i,v) for i, digit in enumerate(reversed(binary_repr)) if digit=="1"]
     return edges
+
+def all_edges():
+    """Gives all possible edges, whether they are real or not.
+
+    Args:
+        v (int): Number of vertices
+    """
+
+    return list(permutations(allVertices(),2)) + [(i,i) for i in allVertices()]
