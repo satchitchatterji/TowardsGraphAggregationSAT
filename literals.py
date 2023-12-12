@@ -17,6 +17,43 @@ def calculate_index(coordinates, dimensions):
         idx = idx * dimensions[i] + coordinates[i]
     return idx
 
+def calculate_coordinates(idx, dimensions):
+    coordinates = [0] * len(dimensions)
+
+    for i in range(len(dimensions) - 1, 0, -1):
+        coordinates[i] = idx % dimensions[i]
+        idx //= dimensions[i]
+
+    coordinates[0] = idx
+    return coordinates
+
+# def decodeLiteral(lit):
+#     """Decodes E,x,y,i from a given playerliteral.
+
+#     Args:
+#         lit (int): Literal representing edge from x to y for player i in graph E.
+
+#     Returns:
+#         tuple: (E,x,y,i)
+#     """
+#     pol = lit > 0
+#     lit = abs(lit) - 1
+#     dimensions 
+
+    
+#     # literal type: player
+#     # returns (E,x,y)
+#     if dimensions[0] == config.n: 
+#     # literal type: edgeplayer
+#     # returns (E,x,y,i)
+#     else:
+
+#     coords = calculate_coordinates(lit, dimensions)
+    
+
+#     return coordinates, literalType
+
+
 def posEdgeLiteral(x, y):
     """Encodes edge from node x to y as an integer. Used only for properties
 
@@ -54,7 +91,7 @@ def posLiteral(E, x, y):
     Returns:
         int: Positive literal for CNF
     """
-    return calculate_index((config.n, E,x,y), (config.n, config.r, config.v, config.v)) + 1
+    return calculate_index((E,x,y,config.n), (config.r, config.v, config.v, config.n)) + 1
 
 def negLiteral(E, x, y):
     """Calculates negative literal for an edge given the profile
@@ -99,26 +136,3 @@ def negEdgePlayerLiteral(E, x, y, i):
     
     return -posEdgePlayerLiteral(E, x, y, i)
 
-
-def decodePlayerLiteral(lit):
-    """Decodes E,x,y,i from a given playerliteral.
-
-    Args:
-        lit (int): Literal representing edge from x to y for player i in graph E.
-
-    Returns:
-        tuple: (E,x,y,i)
-    """
-    lit = abs(lit) - 1
-    
-
-    dimensions = (config.r, config.v, config.v, config.n)
-    
-    coordinates = [0] * len(dimensions)
-
-    for i in range(len(dimensions) - 1, 0, -1):
-        coordinates[i] = lit % dimensions[i]
-        lit //= dimensions[i]
-    
-
-    return coordinates
