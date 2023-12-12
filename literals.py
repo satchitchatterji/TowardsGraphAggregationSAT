@@ -98,3 +98,27 @@ def negEdgePlayerLiteral(E, x, y, i):
     """
     
     return -posEdgePlayerLiteral(E, x, y, i)
+
+
+def decodePlayerLiteral(lit):
+    """Decodes E,x,y,i from a given playerliteral.
+
+    Args:
+        lit (int): Literal representing edge from x to y for player i in graph E.
+
+    Returns:
+        tuple: (E,x,y,i)
+    """
+    lit = abs(lit) - 1
+    
+
+    dimensions = (config.r, config.v, config.v, config.n)
+    
+    coordinates = [0] * len(dimensions)
+
+    for i in range(len(dimensions) - 1, 0, -1):
+        coordinates[i] = lit % dimensions[i]
+        lit //= dimensions[i]
+    
+
+    return coordinates
