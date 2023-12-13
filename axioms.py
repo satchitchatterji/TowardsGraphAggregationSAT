@@ -37,7 +37,7 @@ def anonymity():
 	return cnf
 
 
-def unanimity_obsolete():
+"""def unanimity_obsolete():
 	cnf = []
 	exp_c = config.r*config.v*config.v
 	print("Expected clauses: ", exp_c)
@@ -51,7 +51,7 @@ def unanimity_obsolete():
 				disj.append(posLiteral(E,x,y))
 				cnf.append(tuple(disj))
 
-	return cnf
+	return cnf"""
 
 
 
@@ -73,7 +73,7 @@ def unanimity():
 
 	return cnf
 
-def grounded_obs():
+"""def grounded_obs():
 	cnf = []
 	exp_c =  config.r*config.v*config.v*config.n
 	print("Expected clauses: ", exp_c)
@@ -83,7 +83,7 @@ def grounded_obs():
 			for y in allVertices():
 				for i in allVoters():
 					cnf.append((negLiteral(E,x,y), posEdgePlayerLiteral(E,x,y,i)))
-	return cnf
+	return cnf"""
 
 
 def grounded():
@@ -111,6 +111,7 @@ def grounded():
 def nondictatorship():
 	cnf = []
 
+	# we enforce that each voter must have at least one situation where their graph is _not_ the winning graph.
 	for i in allVoters():
 		clause = []
 
@@ -126,7 +127,7 @@ def nondictatorship():
 					clause.append(posLiteral(E,x,y))
 			
 		cnf.append(tuple(clause))
-		
+
 	return cnf
 
 
