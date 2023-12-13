@@ -1,5 +1,9 @@
 from config import *
 
+# define dimensions for outside use
+LITDIM = (config.r, config.v, config.v)
+PLAYERDIM = (config.n+1, config.r, config.v, config.v)
+
 def calculate_index(coordinates, dimensions):
     """Calculates integer literal used to encode a specific edge, based on current CNF level.
 
@@ -27,8 +31,9 @@ def calculate_coordinates(idx, dimensions):
     coordinates[0] = idx
     return coordinates
 
-def decodeLiteral(lit):
-    """Decodes E,x,y,i from a given player literal.
+
+def decodeLiteral(lit, dim=PLAYERDIM):
+    """Decodes info from a given player literal.
 
     Args:
         lit (int): Literal representing edge from x to y for player i in graph E.
@@ -38,12 +43,14 @@ def decodeLiteral(lit):
     """
     pol = lit > 0
     lit = abs(lit) - 1
-    dimensions = None
+  
+    coords = calculate_coordinates(lit, dim)
 
-    dimensions = (config.n+1, config.r, config.v, config.v)  
-    coords = calculate_coordinates(lit, dimensions)
-    print(coords)
-    if lit > (config.n)*config.r*config.v*config.v:
+    mult = dim[0]
+    for d in dim[1:]:
+        mult *= d
+
+    if lit > config.r*config.v*config.v:
         return coords[1:]
 
     return coords

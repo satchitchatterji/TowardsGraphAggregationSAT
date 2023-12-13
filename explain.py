@@ -13,6 +13,7 @@ from utils import (
 from literals import (
     posEdgeLiteral, # (node x, node y)
     negEdgeLiteral, # (node x, node y)
+    LITDIM
 )
 
 from axioms import (
@@ -38,7 +39,7 @@ class Explain:
 
     def __init__(self, axiom_fns):
         all_fns = {"Anonymous": anonymity,
-         "Unanymous": unanimity,
+         "Unanimous": unanimity,
          "Grounded": grounded,
          "Nondictatorial": nondictatorship,
          "Independent": iie}
@@ -49,14 +50,6 @@ class Explain:
             if v in axiom_fns:
                 self.axioms[k] = v()
 
-        """self.axioms = {
-            "Anonymous": anonymity() if anonymity in axiom_fns else None,
-            "Unanymous": unanimity() if unanimity in axiom_fns else None,
-            "Grounded": grounded() if grounded in axiom_fns else None,
-            "Nondictatorial": nondictatorship() if nondictatorship in axiom_fns else None,
-            "Independent": iie() if iie in axiom_fns else None
-        }"""
-
     def __call__(self, cnf: list):
         """Prints explanation for each clause in a given CNF
 
@@ -66,7 +59,7 @@ class Explain:
         for clause in cnf: self.explainClause(clause)
 
     def strProf(self, E):
-        return '(' + ','.join(g for g in E) + ')'
+        return str(profileIntToProfile(E))
 
     def strClause(self, clause):
         return ' or '.join(self.strLiteral(lit) for lit in clause)
@@ -80,8 +73,8 @@ class Explain:
         Returns:
             _type_: _description_
         """
-        E,x,y = profileIntToProfile(lit)
-        print(E,x,y)
+        E,x,y = decodeLiteral(lit, LITDIM)
+        #print(E,x,y)
         return ('not ' if lit<0 else '') + self.strProf(E) + f'-> ({x},{y})'
 
     def explainClause(self, clause):
@@ -114,4 +107,6 @@ if __name__ == "__main__":
     config.update_graphs(graphs)
     arrow_axioms = [iie, nondictatorship, unanimity, grounded]
     ex = Explain(arrow_axioms)
-    print(ex([(-1,),(-2,),(3,)]))
+
+
+    print(ex([(156,), (65,), (99,), (33,)]))
