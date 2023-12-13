@@ -79,6 +79,7 @@ def unanimity():
 
 
 def grounded():
+	#add constraint that if no player has some edge (x,y), then it must not be in the winning graph.
 	cnf = []
 
 	for E in allProfiles():
