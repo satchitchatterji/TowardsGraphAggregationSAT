@@ -125,11 +125,40 @@ def iie():
 	return cnf
 
 
-def collectiverationality():
-	"""Collective rationality wrapper fn. Mainly exists for explainer to work better. 
+def collectiverationality(prop_fns):
+	"""Collective rationality wrapper fn. Enforces collective rationality
+	   wrt given properties on winners of all existing profiles. 
 
     Args:
         props_fns (_type_): _description_
     """
 
-	pass
+	prop_cnf = []
+	for fn in prop_fns:
+		prop_cnf += fn()
+
+	cnf = [] # properties, repeated for each profile
+	# generate prof-prop clauses
+	for E in allProfiles():
+		for clause in prop_cnf:
+			cnf.append(tuple([toLiteral(lit, E)[0] for lit in clause]))
+
+	return cnf
+
+def cr_fn(prop_fns):
+	def cr(): return collectiverationality(prop_fns)
+	return cr
+
+
+if __name__=="__main__":
+	from properties import cnfCompleteness, cnfTransitivity, cnfReflexivity
+	from utils import generate_graph_subsets
+	
+	prop_fns = [cnfReflexivity, cnfTransitivity, cnfCompleteness]
+	graphs = generate_graph_subsets(prop_fns)
+	from config import config
+	config.update_graphs(graphs)
+
+	def cr(): return collectiverationality(prop_fns)
+	
+	print(len(list(cr())))

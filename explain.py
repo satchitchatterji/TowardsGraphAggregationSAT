@@ -13,7 +13,10 @@ from utils import (
 from literals import (
     posEdgeLiteral, # (node x, node y)
     negEdgeLiteral, # (node x, node y)
-    LITDIM
+    LITDIM,
+    EDGEDIM,
+    PLAYERDIM,
+    decodeLiteral
 )
 
 from axioms import (
@@ -22,6 +25,7 @@ from axioms import (
 	grounded,
 	nondictatorship,
 	iie,
+    collectiverationality
 )
 
 from config import config
@@ -37,16 +41,19 @@ class Explain:
 
 
 
-    def __init__(self, axiom_fns):
+    def __init__(self, axiom_fns, prop_fns=None):
         all_fns = {"Anonymous": anonymity,
          "Unanimous": unanimity,
          "Grounded": grounded,
          "Nondictatorial": nondictatorship,
-         "Independent": iie}
+         "Independent": iie,
+         "Collectively rational": collectiverationality}
 
 
         self.axioms = {}
         for k,v in all_fns.items():
+            #if v in axiom_fns and v == collectiverationality:
+            #    self.axioms[k] = v(prop_fns)
             if v in axiom_fns:
                 self.axioms[k] = v()
 
