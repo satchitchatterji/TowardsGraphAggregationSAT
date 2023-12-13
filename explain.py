@@ -5,13 +5,14 @@ from utils import (
     allGraphs,
     allEdges,
     get_edge_xy,
-    get_graph
+    get_graph,
+    profileIntToProfile,
+    profileToProfileInt
 )
 
 from literals import (
     posEdgeLiteral, # (node x, node y)
     negEdgeLiteral, # (node x, node y)
-    decodePlayerLiteral
 )
 
 from axioms import (
@@ -19,7 +20,7 @@ from axioms import (
 	unanimity,
 	grounded,
 	nondictatorship,
-	iie
+	iie,
 )
 
 from config import config
@@ -57,21 +58,31 @@ class Explain:
         }"""
 
     def __call__(self, cnf: list):
+        """Prints explanation for each clause in a given CNF
+
+        Args:
+            cnf (list): List of clauses
+        """
         for clause in cnf: self.explainClause(clause)
 
-    def strProf(self, r):
-        return '(' + ','.join(self.strPref(i,r) for i in allVoters()) + ')'
-
-    def strPref(self, i, r):
-        return ''.join(str(x) for x in decodePlayerLiteral(i))
+    def strProf(self, E):
+        return '(' + ','.join(g for g in E) + ')'
 
     def strClause(self, clause):
         return ' or '.join(self.strLiteral(lit) for lit in clause)
 
     def strLiteral(self, lit):
-        r = (abs(lit) - 1) // v
-        x = (abs(lit) - 1) % e
-        return ('not ' if lit<0 else '') + self.strProf(r) + '->' + str(x)
+        """Prints literal as an a->b implication
+
+        Args:
+            lit (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        E,x,y = profileIntToProfile(lit)
+        print(E,x,y)
+        return ('not ' if lit<0 else '') + self.strProf(E) + f'-> ({x},{y})'
 
     def explainClause(self, clause):
         """Prints interpretable explanation of CNF clause.
@@ -82,3 +93,25 @@ class Explain:
         reason = next((k for k in self.axioms if clause in self.axioms[k]), 'None')
         print(reason + ': ' + self.strClause(clause))
         
+
+if __name__ == "__main__":
+
+    from pysat.solvers import Glucose3
+    from utils import generate_graph_subsets
+    from properties import *
+    from axioms import *
+
+    def solve(cnf):
+        solver = Glucose3()
+        for clause in cnf: solver.add_clause(clause)
+        if solver.solve():
+            return solver.get_model()
+        else:
+            return('UNSATISFIABLE')
+    
+    graphs = generate_graph_subsets([cnfIrreflexivity, cnfTransitivity, cnfCompleteness])
+    # graphs = generate_graph_subsets([cnfIrreflexivity, cnfConnectedness, cnfTransitivity, cnfCompleteness])
+    config.update_graphs(graphs)
+    arrow_axioms = [iie, nondictatorship, unanimity, grounded]
+    ex = Explain(arrow_axioms)
+    print(ex([(-1,),(-2,),(3,)]))
