@@ -1,8 +1,12 @@
 from config import config
 from literals import (
     posEdgeLiteral,
-    negEdgeLiteral
+    negEdgeLiteral,
+    calculate_index,
+    calculate_coordinates
 )
+
+from pysat.solvers import Glucose3
 
 from functools import lru_cache
 
@@ -33,6 +37,27 @@ def allProfiles():
 # CNF Generation
 #################################
 
+def generate_graph_subsets(cnf_properties):
+    def solve(cnf):
+        solver = Glucose3()
+        for clause in cnf: solver.add_clause(clause)
+        if solver.solve():
+            return solver.get_model()
+        else:
+            return('UNSATISFIABLE')
+
+    acceptable_graphs = []
+    for graph_int in allGraphs():
+        edges = get_graph(graph_int, config.v)
+        cnf = graphCNF(edges)
+        for cnf_property in cnf_properties:
+            cnf += cnf_property()
+#         print(cnf)
+        if solve(cnf) != 'UNSATISFIABLE':
+            acceptable_graphs.append(graph_int)
+            
+    return acceptable_graphs
+
 def graphCNF(G_edges):
     """Creates CNF that describes a single graph
 
@@ -55,6 +80,14 @@ def graphCNF(G_edges):
 ##################################
 # Literal decoding
 ##################################
+
+def profileIntToProfile(profile_int):
+    dims = [config.g]*config.n
+    return tuple(calculate_coordinates(profile_int, dims))
+
+def profileToProfileInt(profile):
+    dims = [config.g]*config.n
+    return calculate_index(profile, dims)
 
 def get_edge_xy(edge_literal, v):
     """Decodes edge literal into origin and destination nodes
@@ -98,5 +131,7 @@ def all_edge_tuples():
     """
     #a = list(permutations(allVertices(),2)) + [(i,i) for i in allVertices()]
     #a.sort()
+
+
 
     return [get_edge_xy(ed, config.v) for ed in allEdges()]
