@@ -3,6 +3,7 @@ from config import *
 # define dimensions for outside use
 LITDIM = (config.r, config.v, config.v)
 PLAYERDIM = (config.n+1, config.r, config.v, config.v)
+EDGEDIM = (config.v, config.v)
 
 def calculate_index(coordinates, dimensions):
     """Calculates integer literal used to encode a specific edge, based on current CNF level.
@@ -31,6 +32,26 @@ def calculate_coordinates(idx, dimensions):
     coordinates[0] = idx
     return coordinates
 
+def toEdgeLiteral(lit, dim=LITDIM):
+    """Translates a literal of E,x,y or E,x,y,i encoding into a 
+       player-independent, profile-independent, graph-specific x,y representation.
+
+    Args:
+        lit (int): Literal to convert
+        dim (tuple, optional): Literal encoding dimensions. Defaults to LITDIM.
+    """
+
+    coords = decodeLiteral(lit,dim)
+    x,y = coords[1], coords[2]
+
+    return posEdgeLiteral(x,y) if lit > 0 else negEdgeLiteral(x,y), coords
+
+def toLiteral(lit, E, dim=EDGEDIM):
+    
+    coords = decodeLiteral(lit,dim)
+    x,y = coords[0], coords[1]
+
+    return posLiteral(E,x,y) if lit > 0 else negLiteral(E,x,y), coords
 
 def decodeLiteral(lit, dim=PLAYERDIM):
     """Decodes info from a given player literal.

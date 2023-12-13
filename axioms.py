@@ -65,18 +65,6 @@ def unanimity():
 
 	return cnf
 
-"""def grounded_obs():
-	cnf = []
-	exp_c =  config.r*config.v*config.v*config.n
-	print("Expected clauses: ", exp_c)
-	# return exp_c
-	for E in allProfiles():
-		for x in allVertices():
-			for y in allVertices():
-				for i in allVoters():
-					cnf.append((negLiteral(E,x,y), posEdgePlayerLiteral(E,x,y,i)))
-	return cnf"""
-
 
 def grounded():
 	#add constraint that if no player has some edge (x,y), then it must not be in the winning graph.
@@ -135,3 +123,13 @@ def iie():
 					cnf.append((negLiteral(E1,x,y), posLiteral(E2,x,y)))
 					cnf.append((posLiteral(E1,x,y), negLiteral(E2,x,y)))
 	return cnf
+
+
+def collectiverationality():
+	"""Collective rationality wrapper fn. Mainly exists for explainer to work better. 
+
+    Args:
+        props_fns (_type_): _description_
+    """
+
+	pass

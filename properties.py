@@ -117,4 +117,3 @@ def cnfSeriality():
             clause.append(posEdgeLiteral(x,y))
         cnf.append((clause,))
     return cnf
-
