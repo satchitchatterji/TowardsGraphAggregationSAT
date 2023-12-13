@@ -122,24 +122,6 @@ def nondictatorship():
 
 	return cnf
 
-
-	"""cnf = []
-	for E in allProfiles():
-		# gets all the graph ints
-		voter_graphs = profileIntToProfile(E)
-		
-		for gr_int in voter_graphs:
-			clause = []
-			gr_edges = get_graph(gr_int, config.v)
-			for x,y in all_edge_tuples():
-				if (x,y) in gr_edges: # case where the voter has that edge
-					clause.append(negLiteral(E,x,y))
-				#else: # case where the voter does not have the edge
-				#	clause.append(posLiteral(E,x,y))
-			cnf.append(tuple(clause))
-
-	return cnf"""
-
 def iie():
 	cnf = []
 	exp_c = config.r*config.r*config.v*config.v*2
