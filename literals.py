@@ -28,7 +28,7 @@ def calculate_coordinates(idx, dimensions):
     return coordinates
 
 def decodeLiteral(lit):
-    """Decodes E,x,y,i from a given playerliteral.
+    """Decodes E,x,y,i from a given player literal.
 
     Args:
         lit (int): Literal representing edge from x to y for player i in graph E.
@@ -40,16 +40,6 @@ def decodeLiteral(lit):
     lit = abs(lit) - 1
     dimensions = None
 
-    
-    # literal type: player
-    # returns (E,x,y)
-    # if lit > config.n*config.r*config.v*config.v:
-    #     lit /= config.n
-    #     dimensions = (config.r, config.v, config.v)
-    # # literal type: edgeplayer
-    # # returns (E,x,y,i)
-    # else:
-    
     dimensions = (config.n+1, config.r, config.v, config.v)  
     coords = calculate_coordinates(lit, dimensions)
     print(coords)

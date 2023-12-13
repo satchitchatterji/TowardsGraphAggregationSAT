@@ -1,6 +1,6 @@
 from config import config
 from itertools import permutations
-from utils import allVertices, allProfiles, allVoters, get_graph, all_edge_tuples
+from utils import allVertices, allProfiles, allVoters, get_graph, all_edge_tuples, profileIntToProfile, profileToProfileInt
 from literals import *
 from math import factorial
 
@@ -12,14 +12,6 @@ from functools import lru_cache
 
 # def index_profile(tup):
 # 	return list(getProfileGraphs()).index(tup)
-
-def profileIntToProfile(profile_int):
-    dims = [config.g]*config.n
-    return tuple(calculate_coordinates(profile_int, dims))
-
-def profileToProfileInt(profile):
-    dims = [config.g]*config.n
-    return calculate_index(profile, dims)
 
 def anonymity():
 	cnf = []
