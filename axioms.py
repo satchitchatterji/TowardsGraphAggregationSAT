@@ -109,11 +109,27 @@ def iie():
 	print("Expected clauses: ", exp_c)
 	# return exp_c
 	for E1 in allProfiles():
+		
+		graphs_in_E1 = [config.graphs[x] for x in profileIntToProfile(E1)]
+		e1_edges = []
+		for g in graphs_in_E1:
+			e1_edges += get_graph(g, config.v)
+
 		for E2 in allProfiles():
+			#if E1 == E2:
+			#	continue
+
+			graphs_in_E2 = [config.graphs[x] for x in profileIntToProfile(E2)]
+			e2_edges = []
+			for g in graphs_in_E2:
+				e2_edges += get_graph(g, config.v)
+		
 			for x in allVertices():
 				for y in allVertices():
-					cnf.append((negLiteral(E1,x,y), posLiteral(E2,x,y)))
-					cnf.append((posLiteral(E1,x,y), negLiteral(E2,x,y)))
+					if e1_edges.count((x,y)) == e2_edges.count((x,y)):
+						# count the number of voters, if unequal then go next
+						cnf.append((negLiteral(E1,x,y), posLiteral(E2,x,y)))
+						cnf.append((posLiteral(E1,x,y), negLiteral(E2,x,y)))
 	return cnf
 
 
