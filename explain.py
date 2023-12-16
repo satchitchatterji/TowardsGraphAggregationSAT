@@ -10,6 +10,16 @@ from utils import (
     profileToProfileInt
 )
 
+from properties import (
+    cnfReflexivity,
+    cnfTransitivity,
+    cnfCompleteness,
+    cnfIrreflexivity,
+    cnfNontriviality,
+    cnfSeriality,
+    cnfConnectedness
+)
+
 from literals import (
     posEdgeLiteral, # (node x, node y)
     negEdgeLiteral, # (node x, node y)
@@ -46,8 +56,7 @@ class Explain:
          "Unanimous": unanimity,
          "Grounded": grounded,
          "Nondictatorial": nondictatorship,
-         "Independent": iie,
-         "Collectively rational": collectiverationality}
+         "Independent": iie}
 
 
         self.axioms = {}
@@ -56,6 +65,24 @@ class Explain:
             #    self.axioms[k] = v(prop_fns)
             if v in axiom_fns:
                 self.axioms[k] = v()
+        
+        if prop_fns is not None:
+            self.add_props(prop_fns)
+
+
+    def add_props(self, prop_fns):
+        all_fns = {"Reflexive": cnfReflexivity,
+                   "Complete": cnfCompleteness,
+                   "Transitive": cnfTransitivity,
+                   "Irreflexive": cnfIrreflexivity,
+                   "Connected": cnfConnectedness,
+                   "Nontrivial": cnfNontriviality,
+                   "Serial": cnfSeriality}
+        
+        for k,v in all_fns.items():
+            if v in prop_fns:
+                self.axioms[k] = collectiverationality([v])
+            
 
     def __call__(self, cnf: list):
         """Prints explanation for each clause in a given CNF

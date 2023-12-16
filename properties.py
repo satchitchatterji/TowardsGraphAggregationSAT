@@ -49,9 +49,9 @@ def cnfTransitivity():
     for x in allVertices():
         for y in allVertices():
             for z in allVertices():
-                cnf.append((negEdgeLiteral(x,y),
-                            negEdgeLiteral(y,z),
-                            posEdgeLiteral(x,z)))
+                    cnf.append((negEdgeLiteral(x,y),
+                                negEdgeLiteral(y,z),
+                                posEdgeLiteral(x,z)))
 
     return cnf
 
