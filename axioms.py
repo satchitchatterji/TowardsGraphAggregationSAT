@@ -28,40 +28,29 @@ def anonymity():
 					cnf.append((negLiteral(p1, x, y), posLiteral(p2, x, y)))
 	return cnf
 
-
-"""def unanimity_obsolete():
-	cnf = []
-	exp_c = config.r*config.v*config.v
-	print("Expected clauses: ", exp_c)
-	# return exp_c
-	for E in allProfiles():
-		for x in allVertices():
-			for y in allVertices():
-				disj = []
-				for i in allVoters():
-					disj.append(negEdgePlayerLiteral(E,x,y,i))
-				disj.append(posLiteral(E,x,y))
-				cnf.append(tuple(disj))
-
-	return cnf"""
-
-
-
 def unanimity():
 	cnf = []
 
 	for E in allProfiles():
-		# for winning origin
-		for xwin in allVertices():
-			# for winning target
-			for ywin in allVertices():
-				graphs_in_E = profileIntToProfile(E)
-				for graph_int in graphs_in_E:
-					if (xwin,ywin) not in get_graph(graph_int, config.v):
-						# cnf.append((posLiteral(E,xwin,ywin),))
-					# else:
-						cnf.append((negLiteral(E,xwin,ywin),))
-					break
+		
+		# flattens all voter graphs into one list
+		graphs_in_E = [config.graphs[x] for x in profileIntToProfile(E)]
+		all_edges = []
+		for g in graphs_in_E:
+			all_edges += get_graph(g, config.v)
+		
+		# counts occurrences of each graph
+		edgecount = {}
+		for edge in all_edges:
+			if edge not in edgecount:
+				edgecount[edge] = 0
+			edgecount[edge] += 1
+
+		# applies constraint to all relevant E,x,y
+		for edge, count in edgecount.items():
+			if count == config.n:
+				x,y = edge
+				cnf.append((posLiteral(E,x,y),))
 
 	return cnf
 
@@ -77,8 +66,8 @@ def grounded():
 			for ywin in allVertices():
 				graphs_in_E = profileIntToProfile(E)
 				edge_exists_in_any_player = False
-				for graph_int in graphs_in_E:
-
+				for gr_int in graphs_in_E:
+					graph_int = config.graphs[gr_int]
 					if (xwin,ywin) in get_graph(graph_int, config.v):
 						# matching edge found for this profile - no constraint required
 						edge_exists_in_any_player = True
@@ -102,7 +91,7 @@ def nondictatorship():
 		for E in allProfiles():
 			voter_graphs = profileIntToProfile(E)
 			gr_int = voter_graphs[i]
-
+			gr_int = config.graphs[gr_int]
 			gr_edges = get_graph(gr_int, config.v)
 			for x,y in all_edge_tuples():
 				if (x,y) in gr_edges: # case where the voter has that edge
@@ -162,6 +151,7 @@ if __name__=="__main__":
 	from config import config
 	config.update_graphs(graphs)
 
-	def cr(): return collectiverationality(prop_fns)
+	# def cr(): return collectiverationality(prop_fns)
 	
-	print(len(list(cr())))
+	# print(len(list(cr())))
+	print(len(unanimity()))
