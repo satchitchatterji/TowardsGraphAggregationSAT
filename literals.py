@@ -48,7 +48,7 @@ def toEdgeLiteral(lit, dim=LITDIM):
 
 def toLiteral(lit, E, dim=EDGEDIM):
     
-    coords = decodeLiteral(lit,dim)
+    coords = decodeLiteral(lit,dim) 
     x,y = coords[0], coords[1]
 
     return posLiteral(E,x,y) if lit > 0 else negLiteral(E,x,y), coords
@@ -62,7 +62,6 @@ def decodeLiteral(lit, dim=PLAYERDIM):
     Returns:
         tuple: (E,x,y,i)
     """
-    pol = lit > 0
     lit = abs(lit) - 1
   
     coords = calculate_coordinates(lit, dim)
