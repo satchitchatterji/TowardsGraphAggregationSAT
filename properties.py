@@ -71,7 +71,7 @@ def cnfCompleteness():
     return cnf
 
 def cnfConnectedness():
-    """Reflexivity property
+    """Connectedness property
 
     Returns:
         cnf: List of tuples containing clauses for connectedness CNF
@@ -87,7 +87,7 @@ def cnfConnectedness():
     return cnf
 
 def cnfNontriviality():
-    """Reflexivity property
+    """Nontriviality property
 
     Returns:
         cnf: List of tuples containing clauses for nontriviality CNF
