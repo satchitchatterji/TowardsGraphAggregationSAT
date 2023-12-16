@@ -78,11 +78,14 @@ def grounded():
 				graphs_in_E = profileIntToProfile(E)
 				edge_exists_in_any_player = False
 				for graph_int in graphs_in_E:
+
 					if (xwin,ywin) in get_graph(graph_int, config.v):
+						# matching edge found for this profile - no constraint required
 						edge_exists_in_any_player = True
 						break
 
 				if not edge_exists_in_any_player:
+					# matching edge not found for this profile - do not allow this E,x,y
 					cnf.append((negLiteral(E,xwin,ywin),))
 
 	return cnf
