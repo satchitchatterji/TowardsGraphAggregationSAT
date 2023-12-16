@@ -93,9 +93,11 @@ class Explain:
         for clause in cnf: self.explainClause(clause)
 
     def strProf(self, E):
-        graphs = profileIntToProfile(E)
+        graphs = [config.graphs[g] for g in profileIntToProfile(E)]
         graph_edges =  [get_graph(graph_int, config.v) for graph_int in graphs]
-        big_str = ",\n".join([str(ge) for ge in graph_edges])
+        for gr in graph_edges:
+            gr.sort()
+        big_str = ",\n".join([f"{g}: " + str(ge) for g, ge in zip(graphs, graph_edges)])
         return big_str
 
     def strClause(self, clause):
@@ -112,7 +114,7 @@ class Explain:
         """
         E,x,y = decodeLiteral(lit, LITDIM)
         #print(E,x,y)
-        return ('not ' if lit<0 else '') + self.strProf(E) + f'\n-> ({x},{y})'
+        return ('not\n' if lit<0 else '\n') + self.strProf(E) + f'\n-> ({x},{y})'
 
     def explainClause(self, clause):
         """Prints interpretable explanation of CNF clause.
