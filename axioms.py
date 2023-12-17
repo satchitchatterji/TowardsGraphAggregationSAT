@@ -106,7 +106,7 @@ def nondictatorship():
 def iie():
 	cnf = []
 	exp_c = config.r*config.r*config.v*config.v*2
-	print("Expected clauses: ", exp_c)
+	print("Expected IIE clauses: ", exp_c)
 	# return exp_c
 	for E1 in allProfiles():
 		
