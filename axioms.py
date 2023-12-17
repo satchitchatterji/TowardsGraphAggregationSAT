@@ -129,7 +129,7 @@ def iie():
 					if e1_edges.count((x,y)) == e2_edges.count((x,y)):
 						# count the number of voters, if unequal then go next
 						cnf.append((negLiteral(E1,x,y), posLiteral(E2,x,y)))
-						cnf.append((posLiteral(E1,x,y), negLiteral(E2,x,y)))
+						cnf.append((negLiteral(E2,x,y), posLiteral(E1,x,y)))
 	return cnf
 
 
