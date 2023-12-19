@@ -93,7 +93,7 @@ class Explain:
         for clause in cnf: self.explainClause(clause)
 
     def strProf(self, E):
-        graphs = [config.graphs[g] for g in profileIntToProfile(E)]
+        graphs = profileIntToProfile(E)
         graph_edges =  [get_graph(graph_int, config.v) for graph_int in graphs]
         for gr in graph_edges:
             gr.sort()

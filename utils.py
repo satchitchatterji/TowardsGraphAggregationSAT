@@ -82,12 +82,31 @@ def graphCNF(G_edges):
 ##################################
 
 def profileIntToProfile(profile_int):
+    """Decodes profile integer/index into a list of graph ints
+
+    Args:
+        profile_int (int): the profile int from [0, ..., config.r]
+
+    Returns:
+        tuple: list of graphs where each graph is from [0, ..., 2**(v**2)]
+    """
     dims = [config.g]*config.n
-    return tuple(calculate_coordinates(profile_int, dims))
+    gr_indices = tuple(calculate_coordinates(profile_int, dims))
+    grs = [config.graphs[x] for x in gr_indices]
+    return tuple(grs)
 
 def profileToProfileInt(profile):
+    """Encodes a list of graph ints into profile integer/index
+
+    Args:
+        profile: list of graphs where each graph is from [0, ..., 2**(v**2)]
+
+    Returns:
+        int: the profile int from [0, ..., config.r]
+    """
+    gr_indices = [config.graphs.index(x) for x in profile]
     dims = [config.g]*config.n
-    return calculate_index(profile, dims)
+    return calculate_index(gr_indices, dims)
 
 def get_edge_xy(edge_literal, v):
     """Decodes edge literal into origin and destination nodes

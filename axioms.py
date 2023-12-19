@@ -15,8 +15,8 @@ from functools import lru_cache
 
 def anonymity():
 	cnf = []
-	exp_c = config.r*factorial(config.v)*config.v*config.v
-	print("Expected clauses: ", exp_c)
+	# exp_c = config.r*factorial(config.v)*config.v*config.v
+	# print("Expected clauses: ", exp_c)
 	# return exp_c
 	for profile1 in allProfiles():
 		perms = permutations(profileIntToProfile(profile1))
@@ -34,21 +34,15 @@ def unanimity():
 	for E in allProfiles():
 		
 		# flattens all voter graphs into one list
-		graphs_in_E = [config.graphs[x] for x in profileIntToProfile(E)]
+		graphs_in_E = profileIntToProfile(E)
 		all_edges = []
 		for g in graphs_in_E:
 			all_edges += get_graph(g, config.v)
 		
 		# counts occurrences of each graph
-		edgecount = {}
-		for edge in all_edges:
-			if edge not in edgecount:
-				edgecount[edge] = 0
-			edgecount[edge] += 1
-
 		# applies constraint to all relevant E,x,y
-		for edge, count in edgecount.items():
-			if count == config.n:
+		for edge in set(all_edges):
+			if all_edges.count(edge) == config.n:
 				x,y = edge
 				cnf.append((posLiteral(E,x,y),))
 
@@ -66,8 +60,7 @@ def grounded():
 			for ywin in allVertices():
 				graphs_in_E = profileIntToProfile(E)
 				edge_exists_in_any_player = False
-				for gr_int in graphs_in_E:
-					graph_int = config.graphs[gr_int]
+				for graph_int in graphs_in_E:
 					if (xwin,ywin) in get_graph(graph_int, config.v):
 						# matching edge found for this profile - no constraint required
 						edge_exists_in_any_player = True
@@ -91,7 +84,6 @@ def nondictatorship():
 		for E in allProfiles():
 			voter_graphs = profileIntToProfile(E)
 			gr_int = voter_graphs[i]
-			gr_int = config.graphs[gr_int]
 			gr_edges = get_graph(gr_int, config.v)
 			for x,y in all_edge_tuples():
 				if (x,y) in gr_edges: # case where the voter has that edge
@@ -105,12 +97,12 @@ def nondictatorship():
 
 def iie():
 	cnf = []
-	exp_c = config.r*config.r*config.v*config.v*2
-	print("Expected IIE clauses: ", exp_c)
+	# exp_c = config.r*config.r*config.v*config.v*2
+	# print("Expected IIE clauses: ", exp_c)
 	# return exp_c
 	for E1 in allProfiles():
 		
-		graphs_in_E1 = [config.graphs[x] for x in profileIntToProfile(E1)]
+		graphs_in_E1 = profileIntToProfile(E1)
 		e1_edges = []
 		for g in graphs_in_E1:
 			e1_edges += get_graph(g, config.v)
@@ -119,7 +111,7 @@ def iie():
 			#if E1 == E2:
 			#	continue
 
-			graphs_in_E2 = [config.graphs[x] for x in profileIntToProfile(E2)]
+			graphs_in_E2 = profileIntToProfile(E2)
 			e2_edges = []
 			for g in graphs_in_E2:
 				e2_edges += get_graph(g, config.v)
@@ -159,15 +151,18 @@ def cr_fn(prop_fns):
 
 
 if __name__=="__main__":
-	from properties import cnfCompleteness, cnfTransitivity, cnfReflexivity
+	from properties import cnfCompleteness, cnfTransitivity, cnfIrreflexivity
 	from utils import generate_graph_subsets
 	
-	prop_fns = [cnfReflexivity, cnfTransitivity, cnfCompleteness]
+	prop_fns = [cnfIrreflexivity, cnfTransitivity, cnfCompleteness]
 	graphs = generate_graph_subsets(prop_fns)
 	from config import config
 	config.update_graphs(graphs)
 
 	# def cr(): return collectiverationality(prop_fns)
-	
+	 
 	# print(len(list(cr())))
 	print(len(unanimity()))
+	print(len(grounded()))
+	print(len(nondictatorship()))
+	print(len(iie()))
