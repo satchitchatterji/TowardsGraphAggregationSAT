@@ -5,8 +5,8 @@ from itertools import permutations
 # g = 2**(v**2) # number of total directed graphs
 # e = v**2 # number of possible directed edges
 
-def compute_r(g,v):
-	return g**v
+def compute_r(g,n):
+	return g**n
 	
 class config:
 	n = 3 # number of voters
@@ -23,7 +23,7 @@ class config:
 			print(f"Warning: Requested update does not match internal state!")
 			print(f"\tRequested update: g={g}, number of graphs saved: len(config.graphs=){len(config.graphs)}")
 		config.g = g
-		config.r = compute_r(g, config.v)
+		config.r = compute_r(g, config.n)
 
 	def update_graphs(graphs):
 		print("Updating config.graphs")
