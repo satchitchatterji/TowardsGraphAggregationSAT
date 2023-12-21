@@ -6,13 +6,6 @@ from math import factorial
 
 from functools import lru_cache
 
-
-# def getProfileGraphs():
-# 	return permutations(config.graphs, config.v)
-
-# def index_profile(tup):
-# 	return list(getProfileGraphs()).index(tup)
-
 def anonymity():
 	cnf = []
 	# exp_c = config.r*factorial(config.v)*config.v*config.v
@@ -59,8 +52,10 @@ def grounded():
 			# for winning target
 			for ywin in allVertices():
 				graphs_in_E = profileIntToProfile(E)
+
 				edge_exists_in_any_player = False
 				for graph_int in graphs_in_E:
+
 					if (xwin,ywin) in get_graph(graph_int, config.v):
 						# matching edge found for this profile - no constraint required
 						edge_exists_in_any_player = True
@@ -97,7 +92,7 @@ def nondictatorship():
 
 def iie():
 	cnf = []
-	# exp_c = config.r*config.r*config.v*config.v*2
+	# exp_c = config.r*config.r*config.v*config.v
 	# print("Expected IIE clauses: ", exp_c)
 	# return exp_c
 	for E1 in allProfiles():

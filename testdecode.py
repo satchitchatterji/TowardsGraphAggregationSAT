@@ -14,6 +14,9 @@ if __name__ == "__main__":
 
     match = 0
     mismatch = 0
+    internal_mismatch = 0
+
+    i = 1
     for E in allProfiles():
         #print("Profile", E)
         for x in allVertices():
@@ -24,7 +27,10 @@ if __name__ == "__main__":
                     match += 1
                 else:
                     mismatch += 1
-
-                print(f"{edgelit_dec}, {lit}")
+                
+                if lit != i or edgelit_dec != i:
+                    internal_mismatch += 1
+                i += 1
 
     print(f"{match} MATCHES, {mismatch} MISMATCHES")
+    print(f"{internal_mismatch} DUPLICATES IN ONE SET")
