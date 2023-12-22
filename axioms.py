@@ -97,22 +97,26 @@ def iie():
 	for E1 in allProfiles():
 		
 		graphs_in_E1 = profileIntToProfile(E1)
-		e1_edges = []
+		
+		e1_graphs = []
 		for g in graphs_in_E1:
-			e1_edges += get_graph(g, config.v)
+			e1_graphs.append(get_graph(g, config.v))
 
 		for E2 in allProfiles():
-			# if E1 == E2:
-			# 	continue
 
 			graphs_in_E2 = profileIntToProfile(E2)
-			e2_edges = []
+
+			e2_graphs = []
 			for g in graphs_in_E2:
-				e2_edges += get_graph(g, config.v)
-		
+				e2_graphs.append(get_graph(g, config.v))
+			
 			for x in allVertices():
 				for y in allVertices():
-					if e1_edges.count((x,y)) == e2_edges.count((x,y)):
+					
+					e1_accept = [i for i,g in enumerate(e1_graphs) if (x,y) in g]
+					e2_accept = [i for i,g in enumerate(e2_graphs) if (x,y) in g]
+
+					if e1_accept == e2_accept:
 						# count the number of voters, if unequal then go next
 						cnf.append((negLiteral(E1,x,y), posLiteral(E2,x,y)))
 						# cnf.append((negLiteral(E2,x,y), posLiteral(E1,x,y)))
