@@ -32,7 +32,7 @@ def calculate_coordinates(idx, dimensions):
     coordinates[0] = idx
     return coordinates
 
-def toEdgeLiteral(lit, dim=LITDIM):
+def toEdgeLiteral(lit, dim): #=LITDIM
     """Translates a literal of E,x,y or E,x,y,i encoding into a 
        player-independent, profile-independent, graph-specific x,y representation.
 
@@ -46,14 +46,15 @@ def toEdgeLiteral(lit, dim=LITDIM):
 
     return posEdgeLiteral(x,y) if lit > 0 else negEdgeLiteral(x,y), coords
 
-def toLiteral(lit, E, dim=EDGEDIM):
+def toLiteral(lit, E, dim): #=EDGEDIM
     
     coords = decodeLiteral(lit,dim) 
     x,y = coords[0], coords[1]
+    # print(x,y)
 
     return posLiteral(E,x,y) if lit > 0 else negLiteral(E,x,y), coords
 
-def decodeLiteral(lit, dim=PLAYERDIM):
+def decodeLiteral(lit, dim): #=PLAYERDIM
     """Decodes info from a given player literal.
 
     Args:
@@ -70,8 +71,8 @@ def decodeLiteral(lit, dim=PLAYERDIM):
     for d in dim[1:]:
         mult *= d
 
-    if lit > config.r*config.v*config.v:
-        return coords[1:]
+    # if lit > config.r*config.v*config.v:
+    #     return coords[1:]
 
     return coords
 

@@ -55,7 +55,6 @@ def grounded():
 
 				edge_exists_in_any_player = False
 				for graph_int in graphs_in_E:
-
 					if (xwin,ywin) in get_graph(graph_int, config.v):
 						# matching edge found for this profile - no constraint required
 						edge_exists_in_any_player = True
@@ -103,8 +102,8 @@ def iie():
 			e1_edges += get_graph(g, config.v)
 
 		for E2 in allProfiles():
-			#if E1 == E2:
-			#	continue
+			# if E1 == E2:
+			# 	continue
 
 			graphs_in_E2 = profileIntToProfile(E2)
 			e2_edges = []
@@ -116,7 +115,7 @@ def iie():
 					if e1_edges.count((x,y)) == e2_edges.count((x,y)):
 						# count the number of voters, if unequal then go next
 						cnf.append((negLiteral(E1,x,y), posLiteral(E2,x,y)))
-						#cnf.append((negLiteral(E2,x,y), posLiteral(E1,x,y)))
+						# cnf.append((negLiteral(E2,x,y), posLiteral(E1,x,y)))
 	return cnf
 
 
@@ -136,7 +135,7 @@ def collectiverationality(prop_fns):
 	# generate prof-prop clauses
 	for E in allProfiles():
 		for clause in prop_cnf:
-			cnf.append(tuple([toLiteral(lit, E)[0] for lit in clause]))
+			cnf.append(tuple([toLiteral(lit, E, EDGEDIM)[0] for lit in clause]))
 
 	return cnf
 
@@ -153,7 +152,7 @@ if __name__=="__main__":
 	graphs = generate_graph_subsets(prop_fns)
 	from config import config
 	config.update_graphs(graphs)
-
+	print(config.r)
 	# def cr(): return collectiverationality(prop_fns)
 	 
 	# print(len(list(cr())))
@@ -161,3 +160,17 @@ if __name__=="__main__":
 	print(len(grounded()))
 	print(len(nondictatorship()))
 	print(len(iie()))
+	collectiverationality(prop_fns)
+
+	# for clause in collectiverationality(prop_fns):
+	# 	for lit in clause:
+	# 		polarity = ["-", "+"][int(lit)>0]
+	# 		print(polarity, decodeLiteral(lit, LITDIM), end=", ")
+	# 	print()
+	# fn = unanimity
+	# for clause in fn():
+	# 	for lit in clause:
+	# 		decoded = decodeLiteral(lit, LITDIM)
+	# 		profile = tuple([get_graph(x, config.v) for x in profileIntToProfile(decoded[0])])
+	# 		print(polarity, decoded[0], profile, decoded[1:], end=", ")
+	# 	print()

@@ -49,9 +49,9 @@ def cnfTransitivity():
     for x in allVertices():
         for y in allVertices():
             for z in allVertices():
-                    cnf.append((negEdgeLiteral(x,y),
-                                negEdgeLiteral(y,z),
-                                posEdgeLiteral(x,z)))
+                cnf.append((negEdgeLiteral(x,y),
+                            negEdgeLiteral(y,z),
+                            posEdgeLiteral(x,z)))
 
     return cnf
 
@@ -76,13 +76,14 @@ def cnfConnectedness():
     Returns:
         cnf: List of tuples containing clauses for connectedness CNF
     """
+
     cnf = []
 
     for x in allVertices():
         for y in allVertices():
             for z in allVertices():
-                cnf.append((negEdgeLiteral(x,y), negEdgeLiteral(x,z), posEdgeLiteral(y,z)))
-                cnf.append((negEdgeLiteral(x,y), negEdgeLiteral(x,z), posEdgeLiteral(z,y)))
+                cnf.append((negEdgeLiteral(x,y), negEdgeLiteral(x,z), posEdgeLiteral(y,z), posEdgeLiteral(z,y)))
+                # cnf.append((negEdgeLiteral(x,y), negEdgeLiteral(x,z), posEdgeLiteral(z,y)))
 
     return cnf
 

@@ -122,7 +122,7 @@ def get_edge_xy(edge_literal, v):
     assert 1<=v<v**2
     return divmod(edge_literal, v)
 
-@lru_cache(maxsize=None)
+# @lru_cache(maxsize=None)
 def get_graph(graph_int, v):
     """Decodes graph literal into interpretable form
 

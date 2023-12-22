@@ -29,7 +29,7 @@ if __name__ == '__main__':
     # print(config.r)
     lit = -123
     lit = (config.n)*config.r*config.v*config.v+4
-    decoded = decodeLiteral(lit)
+    decoded = decodeLiteral(lit, LITDIM)
     # print("(i,E,x,y):", decoded)
     print("Literal:", lit)
     if len(decoded) == 4:
