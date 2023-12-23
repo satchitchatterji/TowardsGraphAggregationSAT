@@ -47,22 +47,18 @@ def grounded():
 	cnf = []
 
 	for E in allProfiles():
-		# for winning origin
-		for xwin in allVertices():
-			# for winning target
-			for ywin in allVertices():
-				graphs_in_E = profileIntToProfile(E)
 
-				edge_exists_in_any_player = False
-				for graph_int in graphs_in_E:
-					if (xwin,ywin) in get_graph(graph_int, config.v):
-						# matching edge found for this profile - no constraint required
-						edge_exists_in_any_player = True
-						break
+		graphs_in_E = profileIntToProfile(E)
+		union = []
+		for g in graphs_in_E:
+			union += get_graph(g, config.v)
 
-				if not edge_exists_in_any_player:
-					# matching edge not found for this profile - do not allow this E,x,y
-					cnf.append((negLiteral(E,xwin,ywin),))
+		for x in allVertices():
+			for y in allVertices():
+
+				# not present in union -> cannot win		
+				if (x, y) not in union:
+					cnf.append((negLiteral(E,x,y),))
 
 	return cnf
 
@@ -115,7 +111,7 @@ def iie():
 					
 					e1_accept = [i for i,g in enumerate(e1_graphs) if (x,y) in g]
 					e2_accept = [i for i,g in enumerate(e2_graphs) if (x,y) in g]
-
+					
 					if e1_accept == e2_accept:
 						# count the number of voters, if unequal then go next
 						cnf.append((negLiteral(E1,x,y), posLiteral(E2,x,y)))
