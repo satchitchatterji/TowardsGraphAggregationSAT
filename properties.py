@@ -118,3 +118,14 @@ def cnfSeriality():
             clause.append(posEdgeLiteral(x,y))
         cnf.append((clause,))
     return cnf
+
+def cnfSymmetry():
+    # xy.(xEy → yEx)
+    cnf = []
+
+    for x in allVertices():
+        for y in allVertices():
+            cnf.append((negEdgeLiteral(x,y),
+                        posEdgeLiteral(y,x)))
+
+    return cnf
