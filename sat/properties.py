@@ -98,9 +98,10 @@ def cnfNontriviality():
     clause = []
     for x in allVertices():
         for y in allVertices():
-            clause.append((posEdgeLiteral(x,y)))
+            if x!=y:
+                clause.append(posEdgeLiteral(x,y))
 
-    cnf.append((posEdgeLiteral,))
+    cnf.append(tuple(clause))
 
     return cnf
 
