@@ -1,5 +1,4 @@
 % define number of nodes per profile
-#const num_nodes=3.
 node(1..num_nodes).
 
 % define edges in profiles
