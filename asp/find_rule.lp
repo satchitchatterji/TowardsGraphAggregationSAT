@@ -23,37 +23,32 @@ edge(1..num_nodes,1..num_nodes).
 % find a graph that satisfies the profile - collective rationality assumed
 1{select(P,G): graph(G)}1 :- profile(P).
 
-% dictatorship: there is no agent A such that their graph always wins.
-:- agent(A), select(P,G): profile(P, choose(A,G)).
-
-
-% unanimity: if all agents agree on an edge, it is selected in the final graph
-:- edge(X,Y), profile(P), graph(G),
-   select(P,G),
-   profile(P, choose(A,G)) : agent(A),
-   not graph(G, edge(X,Y)). 
-
-% grounded: if an edge is in the final graph, at least one agent must accept it
-:- edge(X,Y), profile(P), graph(G),
-   select(P,G),
-   graph(G, edge(X,Y)),
-   not graph(Gag, edge(X,Y)) : profile(P, choose(A,Gag)). 
-
-% iie: given two profiles, if the set of agents accepting some edge is the same, we accept or reject the edge in both
 % define intermediary predicate accept/2 (P, choose(A, edge(X,Y)))
-accept(P, choose(A, edge(X,Y))) :- profile(P), agent(A), graph(G), node(X), node(Y),
+accept(P, choose(A, edge(X,Y))) :- agent(A),
                                    profile(P, choose(A, G)),
                                    graph(G, edge(X,Y)).
 
+% dictatorship: there is no agent A such that their graph always wins.
+dictator(A) :- agent(A), select(P,G): profile(P, choose(A,G)).
+:- dictator(_).
 
-subset(P2, P1, edge(X,Y)) :- profile(P1), profile(P2), graph(G1), graph(G2),
-   select(P1,G1), select(P2,G2),
-   edge(X,Y),
-   graph(G1, edge(X,Y)),
-   graph(G2, edge(X,Y)),
-   accept(P1, choose(A, edge(X,Y))) : accept(P2, choose(A, edge(X,Y))).
+% unanimity: if all agents agree on an edge, it is selected in the final graph
+:- edge(X,Y), select(P,G),
+   not graph(G, edge(X,Y)),
+   profile(P, choose(A,G)) : agent(A). 
 
-:- profile(P1), profile(P2), edge(X,Y), subset(P1,P2, edge(X,Y)), subset(P2,P1, edge(X,Y)).
+% grounded: if an edge is in the final graph, at least one agent must accept it
+:- edge(X,Y), select(P,G),
+   graph(G, edge(X,Y)),
+   not accept(P, choose(A,edge(X,Y))) : agent(A). 
+
+% iie: given two profiles, if the set of agents accepting some edge is the same, we accept or reject the edge in both
+% define intermediary predicate accept/2 (P, choose(A, edge(X,Y)))
+subset(P2, P1, E) :- select(P1,G1), select(P2,G2), P1 != P2,
+                     graph(G1, E), graph(G2, E),
+                     accept(P1, choose(A, E)) : accept(P2, choose(A, E)).
+
+:- subset(P1,P2,E), subset(P2,P1,E).
 
 %irreflexivity
 %:- has(_,edge(X,X)).
