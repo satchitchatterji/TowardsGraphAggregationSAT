@@ -35,10 +35,10 @@ dictator(A) :- agent(A), select(P,G): profile(P, choose(A,G)).
 % unanimity: if all agents agree on an edge, it is selected in the final graph
 :- edge(X,Y), select(P,G),
    not graph(G, edge(X,Y)),
-   profile(P, choose(A,G)) : agent(A). 
+   accept(P, choose(A,edge(X,Y))) : agent(A). 
 
 % grounded: if an edge is in the final graph, at least one agent must accept it
-:- edge(X,Y), select(P,G),
+:- select(P,G),
    graph(G, edge(X,Y)),
    not accept(P, choose(A,edge(X,Y))) : agent(A). 
 
